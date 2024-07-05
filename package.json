@@ -12,15 +12,22 @@
   "dependencies": {
     "@liveblocks/client": "^2.2.0",
     "@liveblocks/react": "^2.2.0",
+    "@liveblocks/react-ui": "^2.2.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "fabric": "^6.0.1",
+    "lucide-react": "^0.400.0",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
+    "@tailwindcss/typography": "^0.5.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
