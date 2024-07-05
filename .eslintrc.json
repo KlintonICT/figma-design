@@ -1,3 +1,42 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["import"],
+  "rules": {
+    "import/order": [
+      "warn",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "unknown"
+        ]
+      }
+    ],
+    "indent": ["warn", 2],
+    "quotes": ["warn", "single"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/display-name": "off"
+  }
 }
