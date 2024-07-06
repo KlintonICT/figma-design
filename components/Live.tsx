@@ -82,17 +82,14 @@ const Live = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePointerUp = useCallback(
-    (event: PointerEvent) => {
-      setCursorState((state: CursorState) =>
-        cursorState.mode === CursorMode.Reaction
-          ? { ...state, isPressed: true }
-          : state
-      );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [cursorState.mode, setCursorState]
-  );
+  const handlePointerUp = useCallback(() => {
+    setCursorState((state: CursorState) =>
+      cursorState.mode === CursorMode.Reaction
+        ? { ...state, isPressed: true }
+        : state
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cursorState.mode, setCursorState]);
 
   const handlePointerDown = useCallback((event: PointerEvent) => {
     const x = event.clientX - event.currentTarget.getBoundingClientRect().x;
