@@ -6,7 +6,13 @@ import {
   useMyPresence,
   useOthers,
 } from '@liveblocks/react/suspense';
-import { PointerEvent, useCallback, useEffect, useState } from 'react';
+import {
+  MutableRefObject,
+  PointerEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 import useInterval from '@/hooks/useInterval';
 import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
@@ -16,7 +22,11 @@ import LiveCursors from './cursor/LiveCursors';
 import FlyingReaction from './reaction/FlyingReaction';
 import ReactionSelector from './reaction/ReactionButton';
 
-const Live = () => {
+type Props = {
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+};
+
+const Live = ({ canvasRef }: Props) => {
   const others = useOthers();
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
 
@@ -157,8 +167,9 @@ const Live = () => {
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       className='h-screen w-full flex justify-center items-center'
+      id='canvas'
     >
-      <h1 className='text-2xl text-white'>Liveblock Figma Clone</h1>
+      <canvas ref={canvasRef} />
 
       {reaction.map((r) => (
         <FlyingReaction
