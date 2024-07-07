@@ -18,6 +18,7 @@ import {
   initializeFabric,
   renderCanvas,
 } from '@/lib/canvas';
+import { handleDelete } from '@/lib/key-events';
 import { ActiveElement } from '@/types/type';
 
 export default function Page() {
@@ -61,6 +62,11 @@ export default function Page() {
     return canvasObjects.size === 0;
   }, []);
 
+  const deleteShapeFromStorage = useMutation(({ storage }, objectId) => {
+    const canvasObjects = storage.get('canvasObjects');
+    canvasObjects.delete(objectId);
+  }, []);
+
   const handleActiveElement = (elem: ActiveElement) => {
     setActiveElement(elem);
 
@@ -68,6 +74,10 @@ export default function Page() {
       case 'reset':
         deleteAllShapes();
         fabricRef.current?.clear();
+        setActiveElement(defaultNavElement);
+        break;
+      case 'delete':
+        handleDelete(fabricRef.current as any, deleteShapeFromStorage);
         setActiveElement(defaultNavElement);
         break;
       default:
@@ -120,6 +130,10 @@ export default function Page() {
     window.addEventListener('resize', () => {
       handleResize({ canvas });
     });
+
+    return () => {
+      canvas.dispose();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
