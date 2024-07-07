@@ -1,9 +1,12 @@
+import { useOthers } from '@liveblocks/react/suspense';
+
 import { COLORS } from '@/constants';
-import { LiveCursorProps } from '@/types/type';
 
 import Cursor from './Cursor';
 
-const LiveCursors = ({ others }: LiveCursorProps) => {
+const LiveCursors = () => {
+  const others = useOthers();
+
   return others.map(({ connectionId, presence }) => {
     if (!presence?.cursor) return null;
 
@@ -13,7 +16,7 @@ const LiveCursors = ({ others }: LiveCursorProps) => {
         color={COLORS[Number(connectionId) % COLORS.length]}
         x={presence.cursor.x}
         y={presence.cursor.y}
-        message={presence.message}
+        message={presence.message || ''}
       />
     );
   });
