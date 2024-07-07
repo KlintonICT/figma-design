@@ -10,10 +10,11 @@ import { ReactNode } from 'react';
 
 import Loader from '@/components/Loader';
 
-export function Room({ children }: { children: ReactNode }) {
+export const Room = ({ children }: { children: ReactNode }) => {
   return (
     <LiveblocksProvider
       publicApiKey={process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!}
+      // resolveUsers={async () => []}
     >
       <RoomProvider
         id='my-room'
@@ -28,4 +29,4 @@ export function Room({ children }: { children: ReactNode }) {
       </RoomProvider>
     </LiveblocksProvider>
   );
-}
+};

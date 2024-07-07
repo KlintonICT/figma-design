@@ -17,6 +17,7 @@ import {
 import useInterval from '@/hooks/useInterval';
 import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
 
+import { Comments } from './comments/Comments';
 import CursorChat from './cursor/CursorChat';
 import LiveCursors from './cursor/LiveCursors';
 import FlyingReaction from './reaction/FlyingReaction';
@@ -129,8 +130,6 @@ const Live = ({ canvasRef }: Props) => {
       } else if (event.key === 'e') {
         setCursorState({
           mode: CursorMode.ReactionSelector,
-          previousMessage: null,
-          message: '',
         });
       }
     };
@@ -166,7 +165,7 @@ const Live = ({ canvasRef }: Props) => {
       onPointerLeave={handlePointerLeave}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      className='h-screen w-full flex justify-center items-center'
+      className='relative h-full w-full flex flex-1 justify-center items-center'
       id='canvas'
     >
       <canvas ref={canvasRef} />
@@ -195,6 +194,8 @@ const Live = ({ canvasRef }: Props) => {
       )}
 
       <LiveCursors others={others} />
+
+      <Comments />
     </div>
   );
 };

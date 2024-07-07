@@ -187,9 +187,26 @@ export default function Page() {
 
     return () => {
       canvas.dispose();
+
+      window.removeEventListener('resize', () => {
+        handleResize({
+          canvas: null,
+        });
+      });
+
+      window.removeEventListener('keydown', (e) =>
+        handleKeyDown({
+          e,
+          canvas: fabricRef.current,
+          undo,
+          redo,
+          syncShapeInStorage,
+          deleteShapeFromStorage,
+        })
+      );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [canvasRef]);
 
   useEffect(() => {
     renderCanvas({ fabricRef, canvasObjects, activeObjectRef });
