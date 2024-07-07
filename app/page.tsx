@@ -8,6 +8,7 @@ import LeftSidebar from '@/components/LeftSidebar';
 import Live from '@/components/Live';
 import Navbar from '@/components/Navbar';
 import RightSidebar from '@/components/RightSidebar';
+import { defaultNavElement } from '@/constants';
 import {
   handleCanvasMouseDown,
   handleCanvasMouseMove,
@@ -46,8 +47,33 @@ export default function Page() {
     icon: '',
   });
 
+  const deleteAllShapes = useMutation(({ storage }) => {
+    const canvasObjects = storage.get('canvasObjects');
+
+    if (!canvasObjects || canvasObjects.size === 0) {
+      return true;
+    }
+
+    for (const [key] of canvasObjects.entries()) {
+      canvasObjects.delete(key);
+    }
+
+    return canvasObjects.size === 0;
+  }, []);
+
   const handleActiveElement = (elem: ActiveElement) => {
     setActiveElement(elem);
+
+    switch (elem?.value) {
+      case 'reset':
+        deleteAllShapes();
+        fabricRef.current?.clear();
+        setActiveElement(defaultNavElement);
+        break;
+      default:
+        break;
+    }
+
     selectedShapeRef.current = elem?.value as string;
   };
 
