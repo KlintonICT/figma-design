@@ -4,7 +4,7 @@ import { RightSidebarProps } from '@/types/type';
 // import Color from './settings/Color';
 import Dimensions from './settings/Dimensions';
 // import Export from './settings/Export';
-// import Text from './settings/Text';
+import Text from './settings/Text';
 
 const RightSidebar = ({
   elementAttributes,
@@ -42,8 +42,13 @@ const RightSidebar = ({
         isEditingRef={isEditingRef}
         handleInputChange={handleInputChange}
       />
-      {/* <Text />
-      <Color />
+      <Text
+        fontFamily={elementAttributes.fontFamily}
+        handleInputChange={handleInputChange}
+        fontSize={elementAttributes.fontSize}
+        fontWeight={elementAttributes.fontWeight}
+      />
+      {/* <Color />
       <Color />
       <Export /> */}
     </section>

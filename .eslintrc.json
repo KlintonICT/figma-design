@@ -33,7 +33,11 @@
         ]
       }
     ],
-    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "indent": [
+      "warn",
+      2,
+      { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }
+    ],
     "quotes": ["warn", "single"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "warn",
