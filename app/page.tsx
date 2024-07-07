@@ -19,13 +19,15 @@ import {
   handleCanvasMouseMove,
   handleCanvasMouseUp,
   handleCanvasObjectModified,
+  handleCanvasObjectScaling,
+  handleCanvasSelectionCreated,
   handleResize,
   initializeFabric,
   renderCanvas,
 } from '@/lib/canvas';
 import { handleDelete, handleKeyDown } from '@/lib/key-events';
 import { handleImageUpload } from '@/lib/shapes';
-import { ActiveElement } from '@/types/type';
+import { ActiveElement, Attributes } from '@/types/type';
 
 export default function Page() {
   const undo = useUndo();
@@ -38,8 +40,19 @@ export default function Page() {
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const isEditingRef = useRef<boolean>(false);
 
   const canvasObjects = useStorage((root) => root.canvasObjects);
+
+  const [elementAttributes, setElementAttributes] = useState<Attributes>({
+    width: '',
+    height: '',
+    fontSize: '',
+    fontFamily: '',
+    fontWeight: '',
+    fill: '#aabbcc',
+    stroke: '#aabbcc',
+  });
 
   const syncShapeInStorage = useMutation(({ storage }, object) => {
     if (!object) return;
@@ -145,6 +158,18 @@ export default function Page() {
       handleCanvasObjectModified({ options, syncShapeInStorage });
     });
 
+    canvas.on('selection:created', (options) => {
+      handleCanvasSelectionCreated({
+        options,
+        isEditingRef,
+        setElementAttributes,
+      });
+    });
+
+    canvas.on('object:scaling', (options) => {
+      handleCanvasObjectScaling({ options, setElementAttributes });
+    });
+
     window.addEventListener('resize', () => {
       handleResize({ canvas });
     });
@@ -190,7 +215,14 @@ export default function Page() {
       <section className='flex h-full flex-row'>
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
         <Live canvasRef={canvasRef} />
-        <RightSidebar />
+        <RightSidebar
+          elementAttributes={elementAttributes}
+          setElementAttributes={setElementAttributes}
+          fabricRef={fabricRef}
+          activeObjectRef={activeObjectRef}
+          isEditingRef={isEditingRef}
+          syncShapeInStorage={syncShapeInStorage}
+        />
       </section>
     </main>
   );
