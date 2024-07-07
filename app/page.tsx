@@ -1,6 +1,11 @@
 'use client';
 
-import { useMutation, useStorage } from '@liveblocks/react/suspense';
+import {
+  useMutation,
+  useRedo,
+  useStorage,
+  useUndo,
+} from '@liveblocks/react/suspense';
 import fabric from 'fabric/fabric-impl';
 import { useEffect, useRef, useState } from 'react';
 
@@ -18,10 +23,13 @@ import {
   initializeFabric,
   renderCanvas,
 } from '@/lib/canvas';
-import { handleDelete } from '@/lib/key-events';
+import { handleDelete, handleKeyDown } from '@/lib/key-events';
 import { ActiveElement } from '@/types/type';
 
 export default function Page() {
+  const undo = useUndo();
+  const redo = useRedo();
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawing = useRef(false);
@@ -129,6 +137,17 @@ export default function Page() {
 
     window.addEventListener('resize', () => {
       handleResize({ canvas });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      handleKeyDown({
+        e,
+        canvas: fabricRef.current,
+        undo,
+        redo,
+        syncShapeInStorage,
+        deleteShapeFromStorage,
+      });
     });
 
     return () => {
