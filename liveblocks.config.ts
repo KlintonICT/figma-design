@@ -1,3 +1,5 @@
+import { LiveMap } from '@liveblocks/client';
+
 declare global {
   interface Liveblocks {
     // Each user's Presence, for useMyPresence, useOthers, etc.
@@ -10,6 +12,7 @@ declare global {
     Storage: {
       // Example, a conflict-free list
       // animals: LiveList<string>;
+      canvasObjects: LiveMap<string, any>;
     };
 
     // Custom user info set when authenticating with a secret key
@@ -23,7 +26,7 @@ declare global {
     };
 
     // Custom events, for useBroadcastEvent, useEventListener
-    RoomEvent: {};
+    RoomEvent: object;
     // Example has two events, using a union
     // | { type: "PLAY" }
     // | { type: "REACTION"; emoji: "🔥" };
