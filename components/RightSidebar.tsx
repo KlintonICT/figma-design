@@ -1,11 +1,12 @@
+import { useRef } from 'react';
+
 import { modifyShape } from '@/lib/shapes';
 import { RightSidebarProps } from '@/types/type';
 
 import Color from './settings/Color';
 import Dimensions from './settings/Dimensions';
-// import Export from './settings/Export';
+import Export from './settings/Export';
 import Text from './settings/Text';
-import { useRef } from 'react';
 
 const RightSidebar = ({
   elementAttributes,
@@ -66,7 +67,7 @@ const RightSidebar = ({
         placeholder='stroke'
         handleInputChange={handleInputChange}
       />
-      {/* <Export /> */}
+      <Export />
     </section>
   );
 };
